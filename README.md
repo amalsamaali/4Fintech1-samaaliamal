@@ -227,3 +227,4 @@ pipeline {
 ## 👤 Auteur
 
 **ESPRIT — UP ASI**  # Test declenchement automatique
+# Test declenchement

@@ -30,6 +30,24 @@ pipeline {
             }
         }
 
+        stage('SonarQube') {
+            steps {
+                dir('backend') {
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'mvn verify sonar:sonar -Dsonar.projectKey=backend-gestion-projets -Dsonar.projectName=backend-gestion-projets -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.token=$SONAR_AUTH_TOKEN'
+                    }
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
         stage('Livrable') {
             steps {
                 dir('backend') {
